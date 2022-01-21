@@ -7,9 +7,11 @@ import BarCharts from "./components/BarCharts";
 function App() {
 
     return (
-        <div className="App">
-<BarCharts/>
+        <div className="container">
+            <div className="App">
+                <BarCharts/>
 
+            </div>
         </div>
     );
 }
