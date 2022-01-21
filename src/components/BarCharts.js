@@ -1,0 +1,54 @@
+import '../App.css';
+import BarChart from "./BarChart";
+import {Chart as ChartJS} from 'chart.js/auto'
+import {Chart} from 'react-chartjs-2'
+import {useEffect, useState} from "react";
+import {URL} from "../Constants";
+
+// Drawing all the charts
+function BarCharts() {
+    const fetchData = async () => {
+        const response = await fetch(URL + '/engagement');
+
+        return await response.json();
+    };
+
+    const [chartLabels, setChartLabels] = useState([]);
+    const [chartDataSet, setChartDataSet] = useState([]);
+    useEffect(() => {
+
+        fetchData().then(data => {
+            setChartDataSet(Object.values(data));
+            setChartLabels(Object.keys(data));
+        });
+    }, []);
+    return (
+        <div className="App">
+            <div className="container">
+                <div className="row">
+                    <div className="col-md">
+                        <div className="card">
+                            <div className="card-body">
+                                <BarChart data={{
+                                    labels:  chartLabels ,
+                                    datasets: [
+                                        {
+                                            id: 1,
+                                            label: 'Label',
+                                            data: chartDataSet ,
+                                            backgroundColor: ['red', 'blue', 'green'],
+                                        },
+
+                                    ],
+                                }}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    );
+}
+
+export default BarCharts;
