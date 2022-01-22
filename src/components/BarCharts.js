@@ -9,6 +9,8 @@ import {URL} from "../Constants";
 import {ThreeDots} from "react-loader-spinner";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import sm_unicode from "../utils";
+
 
 
 // Drawing all the charts
@@ -52,6 +54,7 @@ function BarCharts() {
     }, []);
 // Register the plugin to all charts:
     Chart.register(ChartDataLabels);
+    Chart.defaults.font.family = ['"Font Awesome 5 Brands"', '"Font Awesome 5 Pro"'];
 
     return (
 
@@ -71,12 +74,16 @@ function BarCharts() {
                               options={{
                                   plugins: {
                                       datalabels: {
+
                                           display: true,
                                           color: "white",
                                           formatter:  function (value, context) {
+                                              let code = sm_unicode[context.dataset.label.toLowerCase()]
 
 
-                                  return <FontAwesomeIcon icon={['fab', 'google']} />;
+                                              return String.fromCharCode(parseInt(code, 16));
+
+
                               },
 
                                           align: "start",
