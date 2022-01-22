@@ -8,7 +8,6 @@ import {useEffect, useState} from "react";
 import {URL} from "../Constants";
 import {ThreeDots} from "react-loader-spinner";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import sm_unicode from "../utils";
 
 
