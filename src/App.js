@@ -2,13 +2,15 @@ import './App.css';
 
 import {useEffect} from "react";
 import BarCharts from "./components/BarCharts";
+import Header from "./components/Header";
 
 
 
 function App() {
 
     return (
-        <div className="container">
+        <div className="bg-dark text-light">
+            <Header title={'Engagements (Daily updated)'}/>
             <div className="App">
                 <BarCharts/>
 

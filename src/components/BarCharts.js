@@ -55,23 +55,43 @@ function BarCharts() {
 // Register the plugin to all charts:
     Chart.register(ChartDataLabels);
     Chart.defaults.font.family = ['"Font Awesome 5 Brands"', '"Font Awesome 5 Pro"'];
+    Chart.defaults.font.size = 30;
+    Chart.defaults.font.weight = "bold";
+    Chart.defaults.color = "white";
 
     return (
 
         <>
-            <div className="loading">
+            <div className={`${by_3_labels.length===0?'loading':'loading bg-dark text-light'}`}>
                 <ThreeDots visible={by_3_labels.length === 0}/></div>
-            <div className="row  justify-content-center">
+            <div className="row  justify-content-center bg-dark text-light">
 
                 <div className="col-md ">
 
 
                     {by_3_labels.map((element, index) => {
-                        return (<div key={index} className="card mt-5 p-5">
+                        return (<div key={index} className="card mt-5 p-5 bg-dark text-light">
 
                             <BarChart
 
-                              options={{
+                              options={{scales: {
+
+                                      y: {
+                                          ticks: {
+                                              font: {
+                                                  size: 25,
+                                              }
+                                          },
+                                          grid: {borderWidth: 5, borderColor: "white"},
+
+
+                                      }
+                                      , x: {
+                                          grid: {borderWidth: 5, borderColor: "white"}
+
+                                      }
+
+                                  },
                                   plugins: {
                                       datalabels: {
 
@@ -81,13 +101,13 @@ function BarCharts() {
                                               let code = sm_unicode[context.dataset.label.toLowerCase()]
 
 
-                                              return String.fromCharCode(parseInt(code, 16));
+                                              return "+"+value+"\n"+String.fromCharCode(parseInt(code, 16));
 
 
                               },
 
                                           align: "start",
-                                          offset:-10
+                                          offset:-70
                                       }
                                   },
                                   legend: {
