@@ -1,10 +1,15 @@
 import '../App.css';
 import BarChart from "./BarChart";
+// eslint-disable-next-line no-unused-vars
 import {Chart as ChartJS} from 'chart.js/auto'
-import {Chart} from 'react-chartjs-2'
+// eslint-disable-next-line no-unused-vars
+import {Chart} from 'chart.js'
 import {useEffect, useState} from "react";
 import {URL} from "../Constants";
-import {TailSpin, ThreeDots} from "react-loader-spinner";
+import {ThreeDots} from "react-loader-spinner";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 
 // Drawing all the charts
 function BarCharts() {
@@ -14,45 +19,101 @@ function BarCharts() {
         return await response.json();
     };
 
-    const [chartLabels, setChartLabels] = useState([]);
-    const [chartDataSet, setChartDataSet] = useState([]);
+
+    const [by_3_labels, setLabels_by3] = useState([]);
+    const [by_3_dataset, setDataset_by3] = useState([]);
+
+
     useEffect(() => {
 
+
         fetchData().then(data => {
-            setChartDataSet(Object.values(data));
-            setChartLabels(Object.keys(data));
+
+            let labels_by_3 = [];
+            let dataset_by_3 = [];
+            Object.values(data).forEach(function (element, index) {
+
+                if (index % 3 === 0) {
+                    dataset_by_3.push([element])
+                    labels_by_3.push([Object.keys(data)[index]])
+                } else {
+                    dataset_by_3[Math.floor(index / 3)].push(element)
+                    labels_by_3[Math.floor(index / 3)].push((Object.keys(data)[index]))
+
+                }
+
+
+            });
+            setLabels_by3(labels_by_3);
+            setDataset_by3(dataset_by_3);
+
+
         });
     }, []);
+// Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+
     return (
 
         <>
             <div className="loading">
-                <ThreeDots visible={chartDataSet.length === 0}/></div>
+                <ThreeDots visible={by_3_labels.length === 0}/></div>
             <div className="row  justify-content-center">
 
-                <div className="col-md">
+                <div className="col-md ">
 
-                    <div className="card" hidden={chartDataSet.length === 0}>
-                        <div className="card-body">
-                            <BarChart data={{
-                                labels: chartLabels,
-                                datasets: [
-                                    {
-                                        id: 1,
-                                        label: 'Label',
-                                        data: chartDataSet,
-                                        backgroundColor: ['red', 'blue', 'green'],
-                                    },
 
-                                ],
-                            }}/>
-                        </div>
-                    </div>
+                    {by_3_labels.map((element, index) => {
+                        return (<div key={index} className="card mt-5 p-5">
+
+                            <BarChart
+
+                              options={{
+                                  plugins: {
+                                      datalabels: {
+                                          display: true,
+                                          color: "white",
+                                          formatter:  function (value, context) {
+
+
+                                  return <FontAwesomeIcon icon={['fab', 'google']} />;
+                              },
+
+                                          align: "start",
+                                          offset:-10
+                                      }
+                                  },
+                                  legend: {
+                                      display: false
+                                  }
+                              }}
+                                data={{
+                                    labels: element,
+                                    datasets: [
+                                        {
+                                            id: 1,
+                                            label: 'Facebook',
+                                            data: by_3_dataset[index],
+                                            backgroundColor: 'blue',
+                                        },
+
+
+                                    ],
+
+
+                                }}/>
+                        </div>)
+
+                    })}
+
+
                 </div>
             </div>
 
+
         </>
-    );
+    )
+        ;
 }
 
 export default BarCharts;
