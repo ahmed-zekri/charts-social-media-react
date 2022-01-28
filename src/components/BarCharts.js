@@ -12,39 +12,36 @@ import sm_unicode from "../utils";
 
 
 // Drawing all the charts
-function BarCharts({group_length,data}) {
- 
+function BarCharts({group_length, data, location}) {
+
 //grouping the data by groups of 3
     const [by_groups_labels, setLabels_by_groups] = useState([]);
     const [by_groups_dataset, set_dataset_by_groups] = useState([]);
-    
+
 
 // fetching the data
     useEffect(() => {
 
 
-      
+        let labels_by_groups = [];
+        let dataset_by_groups = [];
+        Object.values(data).forEach(function (element, index) {
 
-            let labels_by_groups = [];
-            let dataset_by_groups = [];
-            Object.values(data).forEach(function (element, index) {
+            if (index % group_length === 0) {
+                dataset_by_groups.push([element])
+                labels_by_groups.push([Object.keys(data)[index]])
+            } else {
+                dataset_by_groups[Math.floor(index / group_length)].push(element)
+                labels_by_groups[Math.floor(index / group_length)].push((Object.keys(data)[index]))
 
-                if (index % group_length === 0) {
-                    dataset_by_groups.push([element])
-                    labels_by_groups.push([Object.keys(data)[index]])
-                } else {
-                    dataset_by_groups[Math.floor(index / group_length)].push(element)
-                    labels_by_groups[Math.floor(index / group_length)].push((Object.keys(data)[index]))
-
-                }
+            }
 
 
-            });
-            setLabels_by_groups(labels_by_groups);
-            set_dataset_by_groups(dataset_by_groups);
+        });
+        setLabels_by_groups(labels_by_groups);
+        set_dataset_by_groups(dataset_by_groups);
 
 
-     
     }, [data, group_length]);
 // Register the plugin to all charts:
     Chart.register(ChartDataLabels);
@@ -96,7 +93,7 @@ function BarCharts({group_length,data}) {
                                                 let code = sm_unicode[context.dataset.label.toLowerCase()]
 
 
-                                                return "+" + value + "\n" + String.fromCharCode(parseInt(code, 16));
+                                                return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
 
 
                                             },

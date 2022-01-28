@@ -28,10 +28,11 @@ function App() {
     const [data, setData] = useState({});
     //Fetch the data from the URL
     const fetchData = async () => {
-        let usedUrl = !location.pathname.includes(TEST_SUFFIX) ? URL : TEST_URL + location.pathname.replace(TEST_SUFFIX, "")
+        let usedUrl = (!location.pathname.includes(TEST_SUFFIX) ? URL : TEST_URL )+ location.pathname.replace(TEST_SUFFIX, "")
 
         const response = await fetch(usedUrl);
         try {
+            console.log(usedUrl)
             let jsonData = await response.json()
             console.log(jsonData)
             return await jsonData;
@@ -102,7 +103,7 @@ function App() {
                         </div>
                     </div>
                 </div>
-                <BarCharts data={data} group_length={groupLength}/>
+                <BarCharts data={data} group_length={groupLength} location={location.pathname}/>
 
             </div>
         </div>
