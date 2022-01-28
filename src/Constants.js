@@ -1,2 +1,7 @@
 export const URL = "https://social-media-stats-and-data.herokuapp.com"
 export const TEST_URL = "http://localhost:5000"
+export const TEST_SUFFIX = "_test"
+export const FOLLOWERS="/followers"
+export const FOLLOWERS_PERCENTAGE_24="/followers_percentage_24_hours"
+export const FOLLOWERS_PERCENTAGE_28="/followers_percentage_28_days"
+export const ENGAGEMENT="/engagement"
