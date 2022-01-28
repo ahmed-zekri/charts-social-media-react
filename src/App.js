@@ -84,7 +84,7 @@ function App() {
             <div className="App">
                 <ErrorDataAlert show={dataError} hideAlert={hideAlert}/>
                 <div className="row mb-2 justify-content-center"
-                     hidden={location.pathname !== '/engagement' && location.pathname !== '/engagement' + TEST_SUFFIX}>
+                     /* hidden={location.pathname !== '/engagement' && location.pathname !== '/engagement' + TEST_SUFFIX}*/>
                     <div className="col-md-3">
                         <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Groups length</label>
