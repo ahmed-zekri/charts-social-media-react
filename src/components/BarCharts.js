@@ -4,7 +4,6 @@ import BarChart from "./BarChart";
 // eslint-disable-next-line no-unused-vars
 import {Chart} from 'chart.js'
 import {useEffect, useState} from "react";
-import {RESPONSE_TIME} from "../Constants";
 import {ThreeDots} from "react-loader-spinner";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import sm_unicode from "../utils";
@@ -48,7 +47,56 @@ function BarCharts({group_length, data, location}) {
     Chart.defaults.font.size = 30;
     Chart.defaults.font.weight = "bold";
     Chart.defaults.color = "white";
+    let pieCharts = by_groups_labels.map((element, index) =>
+        by_groups_dataset[index].map((element_one, index_one) =>
 
+            <div key={index+"_"+index_one} className="card mt-5 p-5 bg-dark text-light">
+
+                <BarChart location={location}
+
+                          options={{
+
+                              plugins: {
+                                  datalabels: {
+
+                                      display: true,
+                                      color: "white",
+                                      formatter: function (value, context) {
+                                          let code = sm_unicode[context.dataset.label.toLowerCase()]
+
+
+                                          return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
+
+
+                                      },
+
+
+                                  }
+                              },
+                              legend: {
+                                  display: false
+                              }
+                          }}
+                          data={{
+                              labels: ['Facebook', 'Twitter', 'Instagram'],
+                              datasets: [
+                                  {
+                                      id: index+"_"+index_one,
+                                      label: element[index_one],
+                                      data: Object.values(by_groups_dataset[index][index_one]),
+                                      backgroundColor: ['blue', 'red', 'green'],
+                                  },
+
+
+                              ],
+
+
+                          }}/>
+
+            </div>
+        )
+    )
+    console.log(pieCharts)
     return (
 
         <>
@@ -59,117 +107,7 @@ function BarCharts({group_length, data, location}) {
                 <div className="col-md ">
 
 
-                    {by_groups_labels.map((element, index) => {
-                        if (index === 0)
-                            console.log(Object.values(by_groups_dataset[index]))
-                        return (<div key={index} className="card mt-5 p-5 bg-dark text-light">
-                                {!location.includes(RESPONSE_TIME) ?
-                                    <BarChart location={location}
-
-                                              options={{
-                                                  scales: {
-
-                                                      y: {
-                                                          ticks: {
-                                                              font: {
-                                                                  size: 25,
-                                                              }
-                                                          },
-                                                          grid: {borderWidth: 5, borderColor: "white"},
-
-
-                                                      }
-                                                      , x: {
-                                                          grid: {borderWidth: 5, borderColor: "white"}
-
-                                                      }
-
-                                                  },
-                                                  plugins: {
-                                                      datalabels: {
-
-                                                          display: true,
-                                                          color: "white",
-                                                          formatter: function (value, context) {
-                                                              let code = sm_unicode[context.dataset.label.toLowerCase()]
-
-
-                                                              return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
-
-
-                                            },
-
-                                            align: "start",
-                                            offset: -70
-                                        }
-                                    },
-                                    legend: {
-                                        display: false
-                                    }
-                                }}
-                                data={{
-                                    labels: element,
-                                    datasets: [
-                                        {
-                                            id: 1,
-                                            label: 'Facebook',
-                                            data: by_groups_dataset[index],
-                                            backgroundColor: 'blue',
-                                        },
-
-
-                                    ],
-
-
-                                }}/>
-                                    :
-                                    <BarChart location={location}
-
-                                              options={{
-
-                                                  plugins: {
-                                                      datalabels: {
-
-                                                          display: true,
-                                                          color: "white",
-                                                          formatter: function (value, context) {
-                                                              let code = sm_unicode[context.dataset.label.toLowerCase()]
-
-
-                                                              return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
-
-
-                                                          },
-
-
-                                                      }
-                                                  },
-                                                  legend: {
-                                                      display: false
-                                                  }
-                                              }}
-                                              data={{
-                                                  labels: ['Facebook', 'Twitter', 'Instagram'],
-                                                  datasets: [
-                                                      {
-                                                          id: 1,
-                                                          label: 'Facebook',
-                                                          data: Object.values(by_groups_dataset[index]),
-                                                          backgroundColor: ['blue', 'red', 'green'],
-                                                      },
-
-
-                                                  ],
-
-
-                                              }}/>}
-
-                            </div>
-
-
-                        )
-
-                    })}
+                    {pieCharts}
 
 
                 </div>

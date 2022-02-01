@@ -33,9 +33,9 @@ function App() {
 
         const response = await fetch(usedUrl);
         try {
-            console.log(usedUrl)
+
             let jsonData = await response.json()
-            console.log(jsonData)
+
             return await jsonData;
         } catch (e) {
             alert(e)
