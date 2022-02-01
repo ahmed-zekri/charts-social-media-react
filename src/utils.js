@@ -28,3 +28,4 @@ function nFormatter(num, digits) {
 
 
 export default sm_unicode
+export {generate_fake_data, sm_colors, nFormatter, performance_unicode, performance_unicode_reversed}

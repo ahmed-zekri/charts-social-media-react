@@ -1,6 +1,6 @@
 import './App.css';
 
-import BarCharts from "./components/BarCharts";
+import PieCharts from "./components/PieCharts";
 import Header from "./components/Header";
 import {useEffect, useState} from "react";
 import {
@@ -14,7 +14,6 @@ import {
     URL
 } from "./Constants";
 import {useLocation} from 'react-router-dom';
-import ErrorDataAlert from "./components/ErrorDataAlert";
 
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
     const [data, setData] = useState({});
     //Fetch the data from the URL
     const fetchData = async () => {
-        let usedUrl = (!location.pathname.includes(TEST_SUFFIX) ? URL : TEST_URL )+ location.pathname.replace(TEST_SUFFIX, "")
+        let usedUrl = (!location.pathname.includes(TEST_SUFFIX) ? URL : TEST_URL) + location.pathname.replace(TEST_SUFFIX, "")
 
         const response = await fetch(usedUrl);
         try {
@@ -83,35 +82,18 @@ function App() {
     return (
 
         <div className="bg-dark text-light">
-            <Header title={title(location.pathname)}/>
+            <Header title={title(location.pathname)} data={data} hideAlert={hideAlert} dataError={dataError}
+                    groupLength={groupLength} setGroupLength={setGroupLength}/>
 
             <div className="App">
-                <ErrorDataAlert show={dataError} hideAlert={hideAlert}/>
-                <div className="row mb-2 justify-content-center"
-                     /* hidden={location.pathname !== '/engagement' && location.pathname !== '/engagement' + TEST_SUFFIX}*/>
-                    <div className="col-md-3">
-                        <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">Groups length</label>
-                            <input min="1" type="number" className="form-control" aria-describedby="Groups length"
-
-                                   onKeyPress={(e) => e.preventDefault()}
-                                   placeholder="Enter Groups length" value={groupLength}
-                                   onChange={(e) => {
-
-                                       if (e.target.value !== '' && !Number.isNaN(parseInt(e.target.value) && parseInt(e.target.value) >= 1))
-
-                                           setGroupLength(parseInt(e.target.value))
-                                   }}/>
 
 
-                        </div>
-                    </div>
-                </div>
-                <BarCharts data={data} group_length={groupLength} location={location.pathname}/>
+                {/*// Show the bar charts*/}
+                <PieCharts data={data} group_length={groupLength} location={location.pathname}/>
 
             </div>
-        </div>
 
+        </div>
     );
 }
 
