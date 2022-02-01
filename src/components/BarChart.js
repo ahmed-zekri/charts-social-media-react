@@ -1,7 +1,6 @@
 import {Bar, Pie} from "react-chartjs-2";
 import {RESPONSE_TIME} from "../Constants";
-import {Chart, ArcElement} from 'chart.js'
-Chart.register(ArcElement);
+
 
 
 const BarChart = ({data, options, plugins, location}) => {

@@ -1,8 +1,6 @@
 import '../App.css';
 import BarChart from "./BarChart";
-// eslint-disable-next-line no-unused-vars
-// eslint-disable-next-line no-unused-vars
-import {Chart} from 'chart.js'
+import {ArcElement, Chart} from 'chart.js'
 import {useEffect, useState} from "react";
 import {ThreeDots} from "react-loader-spinner";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -12,12 +10,12 @@ import sm_unicode from "../utils";
 // Drawing all the charts
 function BarCharts({group_length, data, location}) {
 
-//grouping the data by groups of 3
+//grouping the data by groups of group_length
     const [by_groups_labels, setLabels_by_groups] = useState([]);
     const [by_groups_dataset, set_dataset_by_groups] = useState([]);
 
 
-// fetching the data
+// use effect to group the data by groups of group_length
     useEffect(() => {
 
 
@@ -36,6 +34,7 @@ function BarCharts({group_length, data, location}) {
 
 
         });
+        //set the data
         setLabels_by_groups(labels_by_groups);
         set_dataset_by_groups(dataset_by_groups);
 
@@ -43,35 +42,47 @@ function BarCharts({group_length, data, location}) {
     }, [data, group_length]);
 // Register the plugin to all charts:
     Chart.register(ChartDataLabels);
+
+    Chart.register(ArcElement);
     Chart.defaults.font.family = ['"Font Awesome 5 Brands"', '"Font Awesome 5 Pro"'];
     Chart.defaults.font.size = 30;
     Chart.defaults.font.weight = "bold";
     Chart.defaults.color = "white";
-    let pieCharts = by_groups_labels.map((element, index) =>
-        by_groups_dataset[index].map((element_one, index_one) =>
-
-            <div key={index+"_"+index_one} className="card mt-5 p-5 bg-dark text-light">
-
-                <BarChart location={location}
-
-                          options={{
-
-                              plugins: {
-                                  datalabels: {
-
-                                      display: true,
-                                      color: "white",
-                                      formatter: function (value, context) {
-                                          let code = sm_unicode[context.dataset.label.toLowerCase()]
 
 
-                                          return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
+    const groupCharts = (element, index) => {
+
+        return (<div key={index}
+                     className="row">{by_groups_dataset[index].map((element_one, index_one) =>
 
 
+            (
+                <div key={index + "_" + index_one} className="col-md mt-5 p-5 bg-dark text-light">
+
+                    <BarChart location={location}
+
+                              options={{
+
+                                  plugins: {
+                                      title: {
+                                          display: true,
+                                          text: Object.values(by_groups_labels[index])[index_one]
                                       },
+                                      datalabels: {
+
+                                          display: true,
+                                          color: "white",
+                                          formatter: function (value, context) {
+                                              let code = sm_unicode[context.dataset.label.toLowerCase()]
 
 
-                                  }
+                                              return "S " + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
+
+
+                                          },
+
+
+                                      }
                               },
                               legend: {
                                   display: false
@@ -82,7 +93,7 @@ function BarCharts({group_length, data, location}) {
                               datasets: [
                                   {
                                       id: index+"_"+index_one,
-                                      label: element[index_one],
+
                                       data: Object.values(by_groups_dataset[index][index_one]),
                                       backgroundColor: ['blue', 'red', 'green'],
                                   },
@@ -93,10 +104,12 @@ function BarCharts({group_length, data, location}) {
 
                           }}/>
 
-            </div>
-        )
-    )
-    console.log(pieCharts)
+                </div>)
+        )}</div>)
+    }
+    let pieCharts = by_groups_labels.map((element, index) => groupCharts(element, index))
+
+
     return (
 
         <>
