@@ -8,6 +8,7 @@ import {
     FOLLOWERS,
     FOLLOWERS_PERCENTAGE_24,
     FOLLOWERS_PERCENTAGE_28,
+    RESPONSE_TIME,
     TEST_SUFFIX,
     TEST_URL,
     URL
@@ -67,6 +68,9 @@ function App() {
             case FOLLOWERS_PERCENTAGE_28:
             case FOLLOWERS_PERCENTAGE_28 + TEST_SUFFIX:
                 return 'Followers percentage last 28 days (Daily updated)';
+            case RESPONSE_TIME:
+            case RESPONSE_TIME + TEST_SUFFIX:
+                return 'Response time (Daily updated)';
 
             default:
                 return '404 Not Found'

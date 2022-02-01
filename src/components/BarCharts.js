@@ -1,11 +1,10 @@
 import '../App.css';
 import BarChart from "./BarChart";
 // eslint-disable-next-line no-unused-vars
-import {Chart as ChartJS} from 'chart.js/auto'
 // eslint-disable-next-line no-unused-vars
 import {Chart} from 'chart.js'
 import {useEffect, useState} from "react";
-import {URL} from "../Constants";
+import {RESPONSE_TIME} from "../Constants";
 import {ThreeDots} from "react-loader-spinner";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import sm_unicode from "../utils";
@@ -61,39 +60,41 @@ function BarCharts({group_length, data, location}) {
 
 
                     {by_groups_labels.map((element, index) => {
+                        if (index === 0)
+                            console.log(Object.values(by_groups_dataset[index]))
                         return (<div key={index} className="card mt-5 p-5 bg-dark text-light">
+                                {!location.includes(RESPONSE_TIME) ?
+                                    <BarChart location={location}
 
-                            <BarChart
+                                              options={{
+                                                  scales: {
 
-                                options={{
-                                    scales: {
-
-                                        y: {
-                                            ticks: {
-                                                font: {
-                                                    size: 25,
-                                                }
-                                            },
-                                            grid: {borderWidth: 5, borderColor: "white"},
-
-
-                                        }
-                                        , x: {
-                                            grid: {borderWidth: 5, borderColor: "white"}
-
-                                        }
-
-                                    },
-                                    plugins: {
-                                        datalabels: {
-
-                                            display: true,
-                                            color: "white",
-                                            formatter: function (value, context) {
-                                                let code = sm_unicode[context.dataset.label.toLowerCase()]
+                                                      y: {
+                                                          ticks: {
+                                                              font: {
+                                                                  size: 25,
+                                                              }
+                                                          },
+                                                          grid: {borderWidth: 5, borderColor: "white"},
 
 
-                                                return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
+                                                      }
+                                                      , x: {
+                                                          grid: {borderWidth: 5, borderColor: "white"}
+
+                                                      }
+
+                                                  },
+                                                  plugins: {
+                                                      datalabels: {
+
+                                                          display: true,
+                                                          color: "white",
+                                                          formatter: function (value, context) {
+                                                              let code = sm_unicode[context.dataset.label.toLowerCase()]
+
+
+                                                              return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
 
 
                                             },
@@ -121,7 +122,52 @@ function BarCharts({group_length, data, location}) {
 
 
                                 }}/>
-                        </div>)
+                                    :
+                                    <BarChart location={location}
+
+                                              options={{
+
+                                                  plugins: {
+                                                      datalabels: {
+
+                                                          display: true,
+                                                          color: "white",
+                                                          formatter: function (value, context) {
+                                                              let code = sm_unicode[context.dataset.label.toLowerCase()]
+
+
+                                                              return "+" + value + (location.includes("percentage") ? "%" : "") + "\n" + String.fromCharCode(parseInt(code, 16));
+
+
+                                                          },
+
+
+                                                      }
+                                                  },
+                                                  legend: {
+                                                      display: false
+                                                  }
+                                              }}
+                                              data={{
+                                                  labels: ['Facebook', 'Twitter', 'Instagram'],
+                                                  datasets: [
+                                                      {
+                                                          id: 1,
+                                                          label: 'Facebook',
+                                                          data: Object.values(by_groups_dataset[index]),
+                                                          backgroundColor: ['blue', 'red', 'green'],
+                                                      },
+
+
+                                                  ],
+
+
+                                              }}/>}
+
+                            </div>
+
+
+                        )
 
                     })}
 

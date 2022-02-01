@@ -1,12 +1,15 @@
-import {Bar} from "react-chartjs-2";
-import plugin from "chartjs-plugin-datalabels";
+import {Bar, Pie} from "react-chartjs-2";
+import {RESPONSE_TIME} from "../Constants";
 
 
-const BarChart = ({data,options,plugins}) => {
+const BarChart = ({data, options, plugins, location}) => {
 
     return (
         <div className="chart">
-            <Bar plugins={plugins} options={options} data={data}/>
+            {!location.includes(RESPONSE_TIME) ? <Bar plugins={plugins} options={options} data={data}/>
+
+                : <Pie plugins={plugins} options={options} data={data}/>}
+            }
         </div>
     );
 
