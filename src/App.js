@@ -14,6 +14,7 @@ import {
     URL
 } from "./Constants";
 import {useLocation} from 'react-router-dom';
+import BarCharts from "./components/BarCharts";
 
 
 function App() {
@@ -89,7 +90,12 @@ function App() {
 
 
                 {/*// Show the bar charts*/}
-                <PieCharts data={data} group_length={groupLength} location={location.pathname}/>
+
+                {location.pathname.includes(RESPONSE_TIME)?
+                    <PieCharts data={data} group_length={groupLength} location={location.pathname}/>
+                    :
+                    <BarCharts data={data} group_length={groupLength} location={location.pathname}/>
+                }
 
             </div>
 

@@ -64,41 +64,12 @@ function PieCharts({group_length, data, location}) {
 
                               options={{
                                   // responsive: false,
-                                  scales: {
 
-                                      y: {display: false,
-                                          ticks: {
-                                              font: {
-                                                  size: 12,
-                                              }
-                                          },
-                                          grid: {borderWidth: 5, borderColor: "white"},
-
-
-                                      }
-                                      , x: {
-                                          grid: {borderWidth: 0, borderColor: "white"},
-
-                                          ticks: {
-
-
-
-                                              // Include a dollar sign in the ticks
-                                              callback: function (value, index, values) {
-if(index===0)
-                                            return "    Company name";
-
-
-                                              }
-                                          }
-                                      }
-
-                                  },
                                   plugins: {
                                       title: {
                                           display: true,
                                           text: by_groups_labels[index][index_one],
-                                          position: 'top',
+                                          position: 'bottom',
                                           color: "white",
                                       }
                                       ,
