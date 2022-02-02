@@ -68,7 +68,7 @@ function PieCharts({group_length, data, location}) {
                                   plugins: {
                                       title: {
                                           display: true,
-                                          text: by_groups_labels[index][index_one],
+                                          text: by_groups_labels[index][index_one]+ " ("+Object.values(by_groups_dataset[index][index_one]).reduce((partialSum, a) => partialSum + a, 0)+" S)",
                                           position: 'bottom',
                                           color: "white",
                                       }
