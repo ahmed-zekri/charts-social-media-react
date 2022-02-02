@@ -84,7 +84,7 @@ function App() {
 
         <div className="bg-dark text-light">
             <Header title={title(location.pathname)} data={data} hideAlert={hideAlert} dataError={dataError}
-                    groupLength={groupLength} setGroupLength={setGroupLength}/>
+                    groupLength={groupLength} setGroupLength={setGroupLength} location={location.pathname}/>
 
             <div className="App">
 
